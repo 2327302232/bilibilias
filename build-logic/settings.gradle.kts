@@ -31,6 +31,7 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven("https://jitpack.io")
     }
     versionCatalogs {
         create("libs") {
