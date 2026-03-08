@@ -47,19 +47,6 @@ jobs:
         run: |
           printf '%s' "${{ secrets.ALPHA_KEYSTORE_BASE64 }}" | base64 -d > $RUNNER_TEMP/mxjs-debug.jks
 
-      # 验证 keystore 可读性 (仅在非 PR 时)
-      - name: Verify keystore
-        if: github.event_name != 'pull_request'
-        run: |
-          echo "=== Keystore Verification ==="
-          keytool -list -keystore $RUNNER_TEMP/mxjs-debug.jks \
-            -storepass "${{ secrets.ALPHA_KEYSTORE_PASSWORD }}" \
-            -alias "${{ secrets.ALPHA_KEY_ALIAS }}" || {
-            echo "❌ Failed to read keystore"
-            exit 1
-          }
-          echo "✅ Keystore verified"
-
       # 把密码注入环境变量 (仅在非 PR 时)
       - name: Export signing secrets
         if: github.event_name != 'pull_request'
